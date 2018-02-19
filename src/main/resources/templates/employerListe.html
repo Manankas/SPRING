@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title th:text="Liste"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+<script th:src="@{/resources/js/jquery-latest.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header">&nbsp;</div>
+	<div class="container">
+		<div class="row">
+			<table class="table table-striped">
+				<tr>
+					<th>#</th>
+					<th th:text="#{prenom}"></th>
+					<th th:text="#{nom}"></th>
+					<th th:text="#{matricule}"></th>
+					<th th:text="#{actif}"></th>
+					<th th:text="#{type}"></th>
+					<th class="center" th:text="#{date.embauche}"></th>
+					<th th:text="#{Edit}"></th>
+					<th class="center" th:text="#{remove}"></th>
+				</tr>
+				<tbody>
+					<tr th:each="row, rowStat : ${listEmployer}">
+						<td th:text="${rowStat.count}"></td>
+						<td th:text="${row.prenom}"></td>
+						<td th:text="${row.nom}"></td>
+						<td th:text="${row.matricule}"></td>
+						<td th:if="${row.actif == 1}"><img th:src="@{/resources/images/checked.png}" /></td>
+						<td th:unless="${row.actif == 1}"><img th:src="@{/resources/images/unchecked.png}" /></td>
+						<td th:text="*{row.type.description}"></td>
+						<td class="center" th:if="${row.dateEmbauche != null}"
+							th:text="${#dates.format(row.dateEmbauche, 'dd-MM-yyyy')}"></td>
+						<td class="center" th:unless="${row.dateEmbauche != null}" th:text="#{nbsp}"></td>
+						<td><a th:href="@{/employerAddOrEdit(id=${row.id})}" th:text="#{edit}"></a></td>
+						<td class="center"><a th:href="@{/employerAddOrEdit/supprimer(id=${row.id})}"
+								onclick="return confirmDelete();" th:text="#{remove}"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

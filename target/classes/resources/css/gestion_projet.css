@@ -1,0 +1,50 @@
+.livraison_ok {
+/* 	color: green; */
+	background: #73AD21;
+	border: 1px solid black;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.livraison_ko {
+	background: #FB3106;
+	border: 1px solid black;
+	text-align: center;
+	border-radius: 5px;
+	color: white;
+}
+.pdc_green {
+	background: #73AD21;
+	border: 1px solid black;
+	text-align: center;
+	border-radius: 3px;
+}
+.pdc_magenta {
+	background: #fc27c6;
+	border: 1px solid black;
+	text-align: center;
+	border-radius: 3px;
+	color: black;
+}
+
+.pdc_yellow {
+	background: yellow;
+	border: 1px solid black;
+	text-align: center;
+	color: black;
+	border-radius: 3px;
+}
+
+.pdc_red {
+	background: #FB3106;
+	border: 1px solid black;
+	text-align: center;
+	color: white;
+}
+
+.pdc_black {
+	background: black;
+	border: 1px solid black;
+	text-align: center;
+	color: white;
+}

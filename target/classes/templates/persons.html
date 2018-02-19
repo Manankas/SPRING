@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Persons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/css/core.css}" />
+<script th:src="@{/resources/js/jquery-latest.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/app.js}"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header">&nbsp;</div>
+	<div class="container">
+		<div class="row">
+			<h1>Persons</h1>
+		</div>
+		<div class="row">
+			<form class="form-horizontal" id="postFilter"
+				th:action="@{/listPersons/filtre}" th:object="${employer}"
+				method="post">
+				<div class="form-group">
+					<div class="col-md-12">
+						<label class="col-md-2 control-label" for="nom" th:text="Nom"></label>
+						<input class="btn btn-default" type="text" th:field="*{nom}" />
+						<button type="submit" class="btn btn-default" th:text="#{filter}"></button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<table class="table">
+				<tr>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Age</th>
+				</tr>
+				<tr th:each="person : ${persons}">
+					<td th:text="${person.firstName}"></td>
+					<td th:text="${person.lastName}"></td>
+					<td th:text="${person.age}"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="row">
+			<div th:if="${persons.totalPages > 0 AND persons.totalPages != 1}"
+				class="form-group col-md-11 pagination-centered">
+				<div class="form-group col-md-1">
+					<select
+						th:onchange="'onChangeSelect(1,\'' + ${employer.nom} + '\')'"
+						class="btn btn-default pagination" id="pageSizeSelect">
+						<option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
+							th:value="${pageSize}"
+							th:selected="${pageSize} == ${selectedPageSize}"></option>
+					</select>
+				</div>
+				<ul
+					th:if="${pager != null AND pager.startPage != null AND pager.endPage != null AND (pager.endPage >= pager.startPage)}"
+					class="pagination">
+					<li th:if="${persons.number != 0}"
+						th:class="${persons.number == 0} ? disabled"><a
+						class="pageLink"
+						th:onclick="'onClickLink(' + ${selectedPageSize} + ',1,\'' + ${employer.nom} + '\')'"
+						href="#">&laquo;</a></li>
+					<li th:if="${persons.number != 0}"
+						th:class="${persons.number == 0} ? disabled"><a
+						class="pageLink"
+						th:onclick="'onClickLink(' + ${selectedPageSize} + ',' + ${persons.number} + ',\'' + ${employer.nom} + '\')'">&larr;</a>
+					</li>
+					<li
+						th:if="${pager != null AND pager.startPage != null AND pager.endPage != null AND (pager.endPage >= pager.startPage)}"
+						th:class="${persons.number == (page - 1)} ? 'active pointer-disabled'"
+						th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+						<a class="pageLink"
+						th:onclick="'onClickLink(' + ${selectedPageSize} + ',' + ${page} + ',\'' + ${employer.nom} + '\')'"
+						href="#" th:text="${page}"></a>
+					</li>
+					<li th:if="${persons.number + 1 != persons.totalPages}"
+						th:class="${persons.number + 1 == persons.totalPages} ? disabled">
+						<a class="pageLink"
+						th:onclick="'onClickLink(' + ${selectedPageSize} + ',' + ${persons.number + 2} + ',\'' + ${employer.nom} + '\')'"
+						href="#">&rarr;</a>
+					</li>
+					<li th:if="${persons.number + 1 != persons.totalPages}"
+						th:class="${persons.number + 1 == persons.totalPages} ? disabled">
+						<a class="pageLink"
+						th:onclick="'onClickLink(' + ${selectedPageSize} + ',' + ${persons.totalPages} + ',\'' + ${employer.nom} + '\')'"
+						href="#">&raquo;</a>
+					</li>
+				</ul>
+				<ul
+					th:if="${not (pager != null AND pager.startPage != null AND pager.endPage != null AND (pager.endPage >= pager.startPage))}"
+					class="pagination">
+					<li th:class="${persons.number == 0} ? disabled"><a
+						class="pageLink"
+						th:href="@{/listPersons/(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+					</li>
+					<li th:class="${persons.number == 0} ? disabled"><a
+						class="pageLink"
+						th:href="@{/listPersons/(pageSize=${selectedPageSize}, page=${persons.number})}">&larr;</a>
+					</li>
+					<li
+						th:class="${persons.number + 1 == persons.totalPages} ? disabled">
+						<a class="pageLink"
+						th:href="@{/listPersons/(pageSize=${selectedPageSize}, page=${persons.number + 2})}">&rarr;</a>
+					</li>
+					<li
+						th:class="${persons.number + 1 == persons.totalPages} ? disabled">
+						<a class="pageLink"
+						th:href="@{/listPersons/(pageSize=${selectedPageSize}, page=${persons.totalPages})}">&raquo;</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- 	<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script> -->
+	<!-- 	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script> -->
+
+	<div th:replace="fragments/footer :: footer" />
+</body>
+</html>

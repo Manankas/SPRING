@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<!-- <head> -->
+<!-- <title th:text="Ajouter-Editer"></title> -->
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> -->
+<!-- <link rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" /> -->
+<!-- <link rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" /> -->
+<!-- <script th:src="@{/resources/js/jquery-latest.js}"></script> -->
+<!-- <script th:src="@{/resources/js/bootstrap.min.js}"></script> -->
+<!-- </head> -->
+<head>
+<title th:text="#{view.index.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/css/gestion_projet.css}" />
+<script th:src="@{/resources/js/jquery-latest.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+
+
+<link rel="stylesheet" th:href="@{/resources/css/jquery-ui.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+<script th:src="@{/resources/js/jquery-1.12.4.js}"></script>
+<script th:src="@{/resources/js/jquery-ui.js}"></script>
+<script th:src="@{/resources/js/datepicker-fr.js}"></script>
+<script>
+	$(function() {
+		$("#idDateEmbauche").datepicker($.datepicker.regional["fr"]);
+	});
+</script>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div th:replace="fragments/header :: header">&nbsp;</div>
+	<div class="container">
+		<form class="form-horizontal" th:if="${edit}"
+			th:action="@{/employerAddOrEdit/saveedit}"
+			th:object="${employer}" method="post">
+			<input type="hidden" th:field="*{id}" /> <input type="hidden"
+				th:field="*{{date}}" /> <input type="hidden" th:field="*{{dateEmbauche}}" />
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="nom" th:text="#{nom}"></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" th:field="*{nom}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="prenom"
+					th:text="#{prenom}"></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" th:field="*{prenom}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="matricule"
+					th:text="#{matricule}"></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" th:field="*{matricule}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="actif" th:text="#{actif}"></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" th:field="*{actif}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="type" th:text="#{type}"></label>
+				<div class="col-md-4">
+					<select class="form-control" th:field="*{type}">
+						<option th:each="obj : ${allTypes}" th:value="${{obj}}"
+							th:text="${obj.description}"></option>
+					</select>
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default" th:text="#{save}"></button>
+				</div>
+			</div>
+		</form>
+		<form class="form-horizontal" th:if="${add}"
+			th:action="@{/employerAddOrEdit/addAction}"
+			th:object="${employer}" method="post">
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="nom" th:text="Nom"></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" th:field="*{nom}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group" th:if="${errorEmployer}">
+				<div class="col-sm-offset-3 form-control-error col-md-4"
+					th:utext="${error}"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="prenom" th:text="Prénom"></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" th:field="*{prenom}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="matricule"
+					th:text="Matricule"></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" th:field="*{matricule}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="dateEmbauche"
+					th:text="#{date.embauche}"></label>
+				<div class="col-md-4">
+					<input id="idDateEmbauche" class="form-control" type="text"
+						th:field="*{{dateEmbauche}}" />
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group" th:if="${errorDateEmbauche}">
+				<div class="col-sm-offset-3 form-control-error col-md-4"
+					th:utext="${error}"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="type" th:text="#{type}"></label>
+				<div class="col-md-4">
+					<select class="form-control" th:field="*{type}">
+						<option th:each="obj : ${allTypes}" th:value="${{obj}}"
+							th:text="${obj.description}"></option>
+					</select>
+				</div>
+				<div class="col-md-6">&nbsp;</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default" th:text="#{save}"></button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

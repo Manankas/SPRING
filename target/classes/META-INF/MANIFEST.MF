@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Spring Boot Web Spring Security
+Implementation-Version: 1.0
+Built-By: tsiriniavo
+Implementation-Vendor-Id: org.springframework.boot
+Build-Jdk: 1.8.0_131
+Implementation-URL: https://localhost:8080
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
